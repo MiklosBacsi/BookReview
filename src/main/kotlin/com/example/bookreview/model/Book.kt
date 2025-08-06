@@ -1,5 +1,6 @@
 package com.example.bookreview.model
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -14,5 +15,6 @@ data class Book(
     val author: String,
     val description: String,
     val rating: Double,
+    @Column(name = "`year`")
     val year: Int
 )

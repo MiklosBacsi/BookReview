@@ -18,7 +18,7 @@ class BookController(private val bookService: BookService) {
         return bookService.getAllBooks()
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/book/{id}")
     fun getBookById(@PathVariable id: Long): ResponseEntity<Book> {
         val book = bookService.getBookById(id)
         return (if (book != null) {
