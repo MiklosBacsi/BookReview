@@ -18,10 +18,6 @@ data class BookRequest(
     @field:Size(max = 1000, message = "Description must not exceed 1000 characters")
     val description: String,
 
-    @field:Min(value = 0, message = "Rating must be between 0 and 5")
-    @field:Max(value = 5, message = "Rating must be between 0 and 5")
-    val rating: Double,
-
     @field:Min(value = 0, message = "Year must be a positive number")
     val year: Int
 )

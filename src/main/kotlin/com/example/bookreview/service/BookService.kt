@@ -24,7 +24,6 @@ class BookService(private val bookRepository: BookRepository) {
             title = bookRequest.title,
             author = bookRequest.author,
             description = bookRequest.description,
-            rating = bookRequest.rating,
             year = bookRequest.year
         )
         return bookRepository.save(book).toResponse()
@@ -39,7 +38,7 @@ class BookService(private val bookRepository: BookRepository) {
         title = title,
         author = author,
         description = description,
-        rating = rating,
-        year = year
+        year = year,
+        rating = ratings.takeIf { it.isNotEmpty() }?.let { it.sumOf { rating -> rating.stars } / it.size.toDouble() }
     )
 }
