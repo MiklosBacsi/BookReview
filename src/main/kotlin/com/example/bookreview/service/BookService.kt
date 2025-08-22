@@ -1,5 +1,7 @@
 package com.example.bookreview.service
 
+import com.example.bookreview.dto.BookRequest
+import com.example.bookreview.dto.BookResponse
 import com.example.bookreview.model.Book
 import com.example.bookreview.repository.BookRepository
 import org.springframework.data.repository.findByIdOrNull
@@ -9,12 +11,31 @@ import java.util.*
 @Service
 class BookService(private val bookRepository: BookRepository) {
 
-    fun getAllBooks(): List<Book> {
-        return bookRepository.findAll()
+    fun getAllBooks(): List<BookResponse> {
+        return bookRepository.findAll().map { it.toResponse() }
     }
 
-    fun getBookById(id: Long): Book? {
-        return bookRepository.findByIdOrNull(id)
+    fun getBookById(id: Long): BookResponse? {
+        return bookRepository.findByIdOrNull(id)?.toResponse()
     }
 
+    fun createBook(bookRequest: BookRequest): BookResponse {
+        val book = Book(
+            title = bookRequest.title,
+            author = bookRequest.author,
+            description = bookRequest.description,
+            rating = bookRequest.rating,
+            year = bookRequest.year
+        )
+        return bookRepository.save(book).toResponse()
+    }
+
+    private fun Book.toResponse() = BookResponse(
+        id = id,
+        title = title,
+        author = author,
+        description = description,
+        rating = rating,
+        year = year
+    )
 }
