@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 
@@ -37,5 +38,10 @@ class BookController(private val bookService: BookService) {
     fun createBook(@Valid @RequestBody request: BookRequest): ResponseEntity<BookResponse> {
         val createdBook = bookService.createBook(request)
         return ResponseEntity.ok(createdBook)
+    }
+
+    @GetMapping("/books/search")
+    fun searchBooks(@RequestParam query: String): List<BookResponse> {
+        return bookService.searchBooks(query)
     }
 }

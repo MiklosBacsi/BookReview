@@ -30,6 +30,10 @@ class BookService(private val bookRepository: BookRepository) {
         return bookRepository.save(book).toResponse()
     }
 
+    fun searchBooks(query: String): List<BookResponse> {
+        return bookRepository.findByTitleContainsIgnoreCase(query).map { it.toResponse() }
+    }
+
     private fun Book.toResponse() = BookResponse(
         id = id,
         title = title,
