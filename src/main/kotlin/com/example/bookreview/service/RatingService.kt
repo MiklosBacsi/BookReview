@@ -1,9 +1,7 @@
 package com.example.bookreview.service
 
-import com.example.bookreview.dto.BookResponse
 import com.example.bookreview.dto.RatingRequest
 import com.example.bookreview.dto.RatingResponse
-import com.example.bookreview.model.Book
 import com.example.bookreview.model.Rating
 import com.example.bookreview.repository.BookRepository
 import com.example.bookreview.repository.RatingRepository
@@ -16,15 +14,17 @@ class RatingService(
     private val ratingRepository: RatingRepository,
     private val bookRepository: BookRepository
 ) {
+    @Transactional(readOnly = true)
     fun getAllRatings(): List<RatingResponse> {
         return ratingRepository.findAll().map { it.toResponse() }
     }
 
+    @Transactional(readOnly = true)
     fun getRatingsByBookId(bookId: Long): List<RatingResponse> {
         return ratingRepository.findByBookId(bookId).map { it.toResponse() }
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     fun createRating(ratingRequest: RatingRequest): RatingResponse {
         val book = bookRepository.findByIdOrNull(ratingRequest.bookId)
             ?: throw IllegalArgumentException("Book with ID ${ratingRequest.bookId} not found")

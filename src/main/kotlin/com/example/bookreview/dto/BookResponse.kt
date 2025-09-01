@@ -1,7 +1,5 @@
 package com.example.bookreview.dto
 
-import com.example.bookreview.model.Rating
-
 data class BookResponse(
     val id: Long,
     val title: String,

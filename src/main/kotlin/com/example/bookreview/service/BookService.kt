@@ -6,19 +6,22 @@ import com.example.bookreview.model.Book
 import com.example.bookreview.repository.BookRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BookService(private val bookRepository: BookRepository) {
 
+    @Transactional(readOnly = true)
     fun getAllBooks(): List<BookResponse> {
         return bookRepository.findAll().map { it.toResponse() }
     }
 
+    @Transactional(readOnly = true)
     fun getBookById(id: Long): BookResponse? {
         return bookRepository.findByIdOrNull(id)?.toResponse()
     }
 
+    @Transactional(readOnly = false)
     fun createBook(bookRequest: BookRequest): BookResponse {
         val book = Book(
             title = bookRequest.title,
@@ -29,6 +32,7 @@ class BookService(private val bookRepository: BookRepository) {
         return bookRepository.save(book).toResponse()
     }
 
+    @Transactional(readOnly = true)
     fun searchBooks(query: String): List<BookResponse> {
         return bookRepository.findByTitleContainsIgnoreCase(query).map { it.toResponse() }
     }
